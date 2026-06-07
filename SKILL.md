@@ -21,6 +21,62 @@ Before writing any annotations, confirm the output language:
 
 If the document is Chinese, write annotations in Chinese. If English, write in English. Never mix languages unless quoting an original term. Technical terms may remain in canonical form (`API`, `OOP`, `CNN`, etc.).
 
+## Deep Research Enrichment (RAG)
+
+For presentations, papers, or any document where the speaker needs to demonstrate broader expertise, invoke the `deep-research` skill to supplement the annotations with external knowledge.
+
+### When to Enrich
+
+Ask the user: "需要我搜索相关背景知识来丰富注释内容吗？"
+
+Ideal scenarios:
+- Academic presentations — supplement with latest research trends, related work
+- Technical talks — add industry context, benchmark comparisons
+- Business reports — include market data, competitor context
+- Educational lectures — enrich with historical background, real-world examples
+
+### Enrichment Workflow
+
+```
+① Convert document to text → extract key topics
+② Identify 3-5 search dimensions (e.g., "related algorithms", "industry benchmarks", "historical context")
+③ Run deep-research on each dimension
+④ Weave external findings into annotations as:
+   - Supplementary context boxes
+   - "Did you know?" speaking interludes
+   - Data/citation footnotes
+   - Comparison tables
+```
+
+### Annotation Format with Enrichment
+
+For each enriched slide or section, add a dedicated enrichment block:
+
+```text
+[Slide X - Title]
+----------------
+Core spoken text grounded in slide content.
+
+[ENRICH: Related Work]
+在 [领域] 中，[某团队] 于 [年份] 提出了 [方法]，
+与本系统的 [组件] 形成互补关系。
+
+[ENRICH: Data Point]
+根据 [来源] 2025 年报告，[相关指标] 达到 [数值]，
+这印证了本系统所针对的问题确实具有现实紧迫性。
+
+[PAUSE]
+Transition: ...
+```
+
+### Enrichment Quality Rules
+
+- **Source attribution**: Every external claim must cite its source with year
+- **Separation**: Core content vs. enrichment clearly labeled with `[ENRICH: category]`
+- **Relevance**: Only include external knowledge that directly supports or counters the slide's thesis
+- **Conciseness**: Each enrichment block ≤3 sentences; the audience is here for your work, not a literature review
+- **Speaker choice**: Enrichment stays in display notes so the speaker can choose whether to say it
+
 ## Annotation Style Rules
 
 1. **Don't describe the page object.** Start with the claim, finding, insight, or argument step.  
