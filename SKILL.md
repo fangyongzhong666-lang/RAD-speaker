@@ -318,6 +318,46 @@ Structure:
 ## Main Arguments
 ```
 
+## Image OCR — Handling Image-Only Slides
+
+Many PPTX and DOCX files embed text inside images (screenshots, rendered diagrams, Canva exports). Standard text extraction returns nothing for these. Use the OCR pipeline:
+
+### Detection
+
+After conversion, check if the extracted text is empty or contains only image placeholders (`![slide_N.png](Picture.jpg)`). If so, the document is image-dominant and needs OCR.
+
+### OCR Pipeline
+
+```bash
+python scripts/ocr_slides.py "<file>.pptx" -o "<output>.json"
+```
+
+This script:
+1. Extracts all images from slides
+2. Detects which slides have no text
+3. Runs easyocr (Chinese + English) on image-only slides
+4. Returns a JSON with OCR text per slide
+
+### Combining OCR with Standard Extraction
+
+For mixed documents (some text slides, some image slides):
+1. Run standard extraction first (convert.py)
+2. Run ocr_slides.py for image-only slides
+3. Merge the results — text slides get text annotations, image slides get OCR-based annotations
+
+### Prerequisites for OCR
+
+```bash
+pip install easyocr
+```
+
+Proxy setup for model download (if needed):
+```python
+import os
+os.environ['HTTP_PROXY'] = 'http://127.0.0.1:7897'
+os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7897'
+```
+
 ## Prerequisites
 
 All scripts require Python with the packages listed in `requirements.txt`. The recommended setup uses the markitdown virtual environment:
